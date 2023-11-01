@@ -1,4 +1,5 @@
-include    bios.inc
+#include    ../include/ops.inc
+#include    ../include/bios.inc
 
 ; #define BIOSSERIAL
 
@@ -80,15 +81,15 @@ warm:      mov     r2,stack          ; set stack to low memory
            mov     r6,main
            sex     r2
            lbr     f_initcall        ; setup SCALL and SRET
-main:      ldi     0ch               ; form feed
-           sep     scall             ; clear the screen
-           dw      f_type
+main:      sep     scall             ; clear the screen
+           dw      f_inmsg
+           db      01bh,'[2J',0      ; ANSI erase display
            mov     rd,04b17h         ; set screen position
            sep     scall
            dw      gotoxy
            sep     scall             ; display version
            dw      f_inmsg
-           db      'v1.6',0
+           db      'v1.7',0
            mov     rd,02004h         ; set screen position
            sep     scall             ; set cursor position
            dw      gotoxy
